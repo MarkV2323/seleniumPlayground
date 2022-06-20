@@ -25,7 +25,7 @@ time.sleep(0.5)
 print(f"Start page found successfully.")
 
 # Scrolling to bottom to find all possible elements.
-scroll_pause = 4
+scroll_pause = 0.5
 total_time_slept = 0
 last_h = driver.execute_script("return document.body.scrollHeight")
 while True:
@@ -66,13 +66,9 @@ for i, url in enumerate(galleries_to_vist):
 print(f" - Total Images found: {len(image_urls)}")
 
 # output to a text file
-print(f"Building Image URL Text File:")
-f_path = "images/url_data.txt"
-out_file = open(f_path, "w")
-for i, url in enumerate(image_urls):
-    commonUtils.print_progress(i, len(image_urls))
-    out_file.write(url)
-    out_file.write("\n")
-out_file.close()
-print(f"\nImage URL Text File at {f_path}. Program completed in {time.time() - start_time} seconds.!")
+commonUtils.write_text_file(image_urls, "out_data.txt")
+# download images from text file.
+commonUtils.save_images_from_file("out_data.txt", "images/")
+# output total time for program to run.
+print(f"Program completed in, {time.time() - start_time} seconds.")
 driver.close()
