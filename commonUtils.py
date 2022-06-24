@@ -133,14 +133,14 @@ def save_images(image_url_list, path, quite=False):
 
 
 # Function for downloading and saving multiple images from a URL text file.
-def save_images_from_file(input_file, path, quite=False):
+def save_images_from_file(input_file, path, quite=False, suffix_val=0):
     try:
         num_lines = sum(1 for _ in open(input_file))
         f_read = open(input_file, "r").read().splitlines()
         line = 0
         for url in f_read:
             print_progress(line, num_lines, f"Starting download from {input_file}: ")
-            save_path = path + f"{line+1}_image.jpg"
+            save_path = path + f"{line+1+suffix_val}_image.jpg"
             download_image_from_url(url, save_path)
             line += 1
         print(f"  - Download Complete!")

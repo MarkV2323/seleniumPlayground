@@ -1,12 +1,16 @@
 import sys
 import commonUtils
 from selenium.webdriver.common.by import By
+from PIL import ImageFile
 import time
+
+# For help with truncated files
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 # Constants variables
 URL_ELEMENT_XPATH = "//a[@class='rel-link']"
 IMPLICIT_WAIT_TIME = 2
-SCROLL_WAIT_TIME = 0.5
+SCROLL_WAIT_TIME = 5
 START_PAGE = sys.argv[1]
 TEXT_OUTPUT = "out_data.txt"
 IMAGE_DIRECTORY = "images/"
