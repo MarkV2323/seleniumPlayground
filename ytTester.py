@@ -18,12 +18,12 @@ Program Pipeline
 start_time = time.time()
 
 # Starts the driver with configured options and goes to start_page.
-driver = commonUtils.build_driver(IMPLICIT_WAIT_TIME)
+driver = commonUtils.build_driver(IMPLICIT_WAIT_TIME, headless=True)
 driver.get(START_PAGE)
 time.sleep(1)
 
 # Scrolling to bottom to find all possible elements.
-commonUtils.scroll_till_bottom(driver, SCROLL_WAIT_TIME, scrolling_element_id="content")
+commonUtils.scroll_till_bottom(driver, SCROLL_WAIT_TIME, scrolling_element_id="content", quite=True)
 
 # scrape youtube comments
 

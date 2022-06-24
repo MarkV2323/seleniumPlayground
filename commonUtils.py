@@ -63,7 +63,7 @@ def get_hrefs_from_pages(driver, by, search, pages) -> list:
 
 
 # Function for scrolling down on the current page.
-def scroll_till_bottom(driver, scroll_pause, scrolling_element_id="body"):
+def scroll_till_bottom(driver, scroll_pause, scrolling_element_id="body", quite=False):
     total_time_slept = 0
     last_h = driver.execute_script(f"var element = document.getElementById('{scrolling_element_id}');"
                                    f"return element.scrollHeight")
@@ -75,14 +75,16 @@ def scroll_till_bottom(driver, scroll_pause, scrolling_element_id="body"):
         # Wait to load page
         time.sleep(scroll_pause)
         total_time_slept += scroll_pause
-        print(f"\rTime spent scrolling: {total_time_slept} seconds.", end='')
+        if not quite:
+            print(f"\rTime spent scrolling: {total_time_slept} seconds.", end='')
         # Calculate new scroll height and compare with last scroll height
         new_height = driver.execute_script(f"var element = document.getElementById('{scrolling_element_id}');"
                                            f"return element.scrollHeight")
         if new_height == last_h:
             break
         last_h = new_height
-    print(f" - Scrolling Complete!")
+    if not quite:
+        print(f" - Scrolling Complete!")
 
 
 # Function for building a new driver.
