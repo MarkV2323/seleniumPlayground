@@ -63,19 +63,22 @@ def get_hrefs_from_pages(driver, by, search, pages) -> list:
 
 
 # Function for scrolling down on the current page.
-def scroll_till_bottom(driver, scroll_pause):
+def scroll_till_bottom(driver, scroll_pause, scrolling_element_id="body"):
     total_time_slept = 0
-    last_h = driver.execute_script("return document.body.scrollHeight")
+    last_h = driver.execute_script(f"var element = document.getElementById('{scrolling_element_id}');"
+                                   f"return element.scrollHeight")
     # potential to be infinite, may need to come back and stop after some time?
     while True:
         # Scroll to bottom
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        driver.execute_script(f"var element = document.getElementById('{scrolling_element_id}');"
+                              f"window.scrollTo(0, element.scrollHeight);")
         # Wait to load page
         time.sleep(scroll_pause)
         total_time_slept += scroll_pause
         print(f"\rTime spent scrolling: {total_time_slept} seconds.", end='')
         # Calculate new scroll height and compare with last scroll height
-        new_height = driver.execute_script("return document.body.scrollHeight")
+        new_height = driver.execute_script(f"var element = document.getElementById('{scrolling_element_id}');"
+                                           f"return element.scrollHeight")
         if new_height == last_h:
             break
         last_h = new_height
@@ -97,7 +100,7 @@ def build_driver(imp_wait, headless=False) -> webdriver.Chrome:
 
 # Function for printing progress of a loop.
 def print_progress(i, total, suffix=""):
-    print(f'\r{suffix}Progress: {i+1}/{total}', end='')
+    print(f'\r{suffix}Progress: {i + 1}/{total}', end='')
 
 
 # Function for writing a list to a text file.
@@ -123,12 +126,12 @@ def download_image_from_url(url, name):
 def save_images(image_url_list, path, quite=False):
     if quite:
         for i, image_url in enumerate(image_url_list):
-            download_image_from_url(image_url, path + f"{i+1}_image.jpg")
+            download_image_from_url(image_url, path + f"{i + 1}_image.jpg")
         return
     f_len = len(image_url_list)
     for i, image_url in enumerate(image_url_list):
         print_progress(i, f_len, f"Starting download from URL list: ")
-        download_image_from_url(image_url, path + f"{i+1}_image.jpg")
+        download_image_from_url(image_url, path + f"{i + 1}_image.jpg")
     print(f"  - Download Complete!")
 
 
@@ -140,7 +143,7 @@ def save_images_from_file(input_file, path, quite=False, suffix_val=0):
         line = 0
         for url in f_read:
             print_progress(line, num_lines, f"Starting download from {input_file}: ")
-            save_path = path + f"{line+1+suffix_val}_image.jpg"
+            save_path = path + f"{line + 1 + suffix_val}_image.jpg"
             download_image_from_url(url, save_path)
             line += 1
         print(f"  - Download Complete!")
