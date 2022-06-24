@@ -8,12 +8,17 @@ Summary: This program will take a youtube video URL and produce a text file cont
 """
 
 
+# Youtube Scrape Pipeline
+def youtube_scrape_pipeline(url_scrape: str, save_path: str):
+    pass
+
+
 # Main Application Window Declaration
 class MainApp(customtkinter.CTk):
     # MainApp Constants
     APPEARANCE_MODE = "dark"
     DEFAULT_COLOR_THEME = "dark-blue"
-    WINDOW_TITLE = "Youtube Comment Webscraper by Mark!"
+    WINDOW_TITLE = "Youtube Comment Scraper by Mark!"
     WINDOW_WIDTH = 600
     WINDOW_HEIGHT = 240
 
@@ -73,7 +78,23 @@ class MainApp(customtkinter.CTk):
 
     # things to do on start_button being clicked
     def on_start_button_click(self):
-        print(f"Start Button Pressed")
+        # disable entries
+        self.url_entry.config(state="disabled")
+        self.save_path_entry.config(state="disabled")
+
+        # ensure input from url_entry is valid youtube video url.
+        url_text = self.url_entry.get()
+        save_path = self.save_path_entry.get()
+        if "https://www.youtube.com/watch?v=" not in url_text:
+            # throw error popup for invalid URL.
+            print(f"Invalid url_text!")
+
+        # call scrape pipeline with input as parameters.
+        youtube_scrape_pipeline(url_text, save_path)
+
+        # cleanup
+        self.url_entry.config(state="normal")
+        self.save_path_entry.config(state="normal")
 
     # things to do on closing of MainApp Window
     def on_closing(self, event=0):
