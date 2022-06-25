@@ -1,10 +1,13 @@
 import requests
 import time
 from io import BytesIO
+
+import selenium.common.exceptions
 from PIL import Image
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 
 """
 @Author - Mark Alan Vincent II
@@ -33,6 +36,25 @@ save_images_from_file   - Will download all images from a URL text file to a spe
 
 
 """
+
+
+# Function for getting multiple HTML elements from a page
+def get_elements_from_page(driver: webdriver.Chrome, by: By, search: str, quite: bool =False) -> list:
+    elements = list()
+    found_elements = driver.find_elements(by, search)
+    found_amount = len(found_elements)
+    for i, element in enumerate(found_elements):
+        # TODO: Implement way to extract comments from top level comment element.
+        if not quite:
+            print_progress(i, found_amount, "Building Element List from page: ")
+        try:
+            print(element.find_element(By.TAG_NAME, "span").text)
+        except selenium.common.exceptions.NoSuchElementException:
+            pass
+        # elements.append(element.text)
+    if not quite:
+        print(f" - Total HREFs found: {len(elements)}")
+    return elements
 
 
 # Function for building a list of URLs found on a page.
