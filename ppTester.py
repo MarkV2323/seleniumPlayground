@@ -10,7 +10,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 # Constants variables
 URL_ELEMENT_XPATH = "//a[@class='rel-link']"
 IMPLICIT_WAIT_TIME = 2
-SCROLL_WAIT_TIME = 5
+SCROLL_WAIT_TIME = 2
 START_PAGE = sys.argv[1]
 TEXT_OUTPUT = "out_data.txt"
 IMAGE_DIRECTORY = "images/"
@@ -32,6 +32,11 @@ galleries_to_vist = commonUtils.get_href_from_page(driver, By.XPATH, URL_ELEMENT
 image_urls = commonUtils.get_hrefs_from_pages(driver, By.XPATH, URL_ELEMENT_XPATH, galleries_to_vist)
 # output to a text file
 commonUtils.write_text_file(image_urls, TEXT_OUTPUT)
+print("--- %s seconds ---" % (time.time() - start_time))
+driver.close()
+exit(-1)
+
+# TODO: Implement version that allows for downloading of images using asyncio
 # download images from text file.
 commonUtils.save_images_from_file(TEXT_OUTPUT, IMAGE_DIRECTORY)
 # output total time for program to run.
