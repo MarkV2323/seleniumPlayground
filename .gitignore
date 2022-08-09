@@ -1,5 +1,7 @@
 images/
 driver/
+sync_tester/
+async_tester/
 .idea/
 __pycache__/
 out_data.txt
